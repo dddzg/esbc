@@ -11,6 +11,7 @@ ip | hostname
  ..  |master_active
   .. |master_standby
  ..  |slave_00
+116.56.136.60  |slave_01
 116.56.136.64  |slave_05
 116.56.136.65 | slave_06
 116.56.136.68 | slave_09
