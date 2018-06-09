@@ -6,14 +6,14 @@
 
 在一周内完成hadoop集群内的机器和角色分配矩阵，实现hadoop集群的搭建。分配十四台机器，十二台作为slaver，一台作为master， 一台作为standyby。
 
-###计划说明
+### 计划说明
 
 在一周内完成十四台机器的hadoop集群配置.
 1.选定一台机器作为master;
-2.在mster节点上配置hadoop用户、安装ssh server、安装java环境;
-3.在其他slave节点上配置hadoop用户，然后通过master机器share配置环境脚本;
+2.在master节点上配置hadoop用户、安装ssh server、安装java环境;
+3.在其他slave节点上配置hadoop用户，然后通过master机器复制/usr/local/hadoop到slave节点并share配置环境脚本;
 4.在其他slave节点上执行配置环境脚本，实现master连接slave节点;
-5.实现standby节点的配置
+5.实现standby节点的配置。
 
 总共搭了13台台式机的集群，其中一台作为master，一台作为standby，10台作为slaver，其中一台联网有故障，没有被考虑使用。
 
