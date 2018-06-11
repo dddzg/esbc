@@ -54,13 +54,13 @@
 
 * slave打开22端口
 
-* ```
-  
+* ```service sshd start
+  netstat -antulp | grep ssh #查询是否开启
   ```
 
 * slave修改hostname
 
-  ```
+  ```sudo gedit /etc/hostname
   
   ```
 
