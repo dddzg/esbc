@@ -25,7 +25,7 @@ public class LogGenerator {
      * 8000000个用户
      */
     private static int userCount = 8000000;
-    private static Random random = new Random(100);
+    private static Random random = new Random(233);
     private static Set loginedUser = new HashSet();
 
     public static OutputStream getOutputStream(String filePath) throws Exception {
@@ -53,14 +53,13 @@ public class LogGenerator {
             Date date = calendar.getTime();
             for (int count = 0; count <= 160; count++) {
                 int userId = Math.abs(random.nextInt()) % userCount;
+                String str = getStringDate(date) + ';' + String.format("%08d", userId) + ';'
                 if (loginedUser.contains(userId)) {
-                    String str =
-                        getStringDate(date) + ';' + String.format("%08d", userId) + ';' + "1\n";
+                    str += "1\n";
                     outputStream.write(str.getBytes());
                     loginedUser.remove(userId);
                 } else {
-                    String str =
-                        getStringDate(date) + ';' + String.format("%08d", userId) + ';' + "0\n";
+                    str += "0\n";
                     outputStream.write(str.getBytes());
                     loginedUser.add(userId);
                 }
