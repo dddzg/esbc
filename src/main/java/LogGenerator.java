@@ -15,18 +15,19 @@ import org.apache.hadoop.fs.Path;
 
 public class LogGenerator {
 
-    private static String timeFormat = "yyyy-MM-dd HH:mm:ss";
-    private static Calendar calendar = new GregorianCalendar();
+    private static final String TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     /**
      * 一年的秒数 365*24*60*60
      */
-    private static int secCount = 7 * 24 * 60 * 60;
+    private static final int SEC_COUNT = 7 * 24 * 60 * 60;
     /**
      * 8000000个用户
      */
-    private static int userCount = 8000000;
-    private static Random random = new Random(233);
-    private static Set loginedUser = new HashSet();
+    private static final int USER_COUNT = 8000000;
+
+    private static final Random random = new Random(233);
+    private static final Set loginedUser = new HashSet();
+    private static final Calendar calendar = new GregorianCalendar();
 
     public static OutputStream getOutputStream(String filePath) throws Exception {
         Configuration conf = new Configuration();
@@ -49,10 +50,10 @@ public class LogGenerator {
 //        OutputStream outputStream = System.out;
         Date startDate = strToDateLong("2017-01-01 00:00:00");
         calendar.setTime(startDate);
-        for (int i = 0; i <= secCount; i++) {
+        for (int i = 0; i <= SEC_COUNT; i++) {
             Date date = calendar.getTime();
             for (int count = 0; count <= 160; count++) {
-                int userId = Math.abs(random.nextInt()) % userCount;
+                int userId = Math.abs(random.nextInt()) % USER_COUNT;
                 String str = getStringDate(date) + ';' + String.format("%08d", userId) + ';'
                 if (loginedUser.contains(userId)) {
                     str += "1\n";
@@ -75,7 +76,7 @@ public class LogGenerator {
      * 将长时间格式字符串转换为时间 yyyy-MM-dd HH:mm:ss
      */
     public static Date strToDateLong(String strDate) {
-        SimpleDateFormat formatter = new SimpleDateFormat(timeFormat);
+        SimpleDateFormat formatter = new SimpleDateFormat(TIME_FORMAT);
         ParsePosition pos = new ParsePosition(0);
         Date strtodate = formatter.parse(strDate, pos);
         return strtodate;
@@ -87,7 +88,7 @@ public class LogGenerator {
      * @return返回字符串格式 yyyy-MM-dd HH:mm:ss
      */
     public static String getStringDate(Date date) {
-        SimpleDateFormat formatter = new SimpleDateFormat(timeFormat);
+        SimpleDateFormat formatter = new SimpleDateFormat(TIME_FORMAT);
         String dateString = formatter.format(date);
         return dateString;
     }
