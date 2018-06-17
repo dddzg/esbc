@@ -24,6 +24,7 @@ public class LogGenerator {
      * 8000000个用户
      */
     private static final int USER_COUNT = 8000000;
+    private static final int LOG_PER_SEC = 160;
     
     private static final String LOG_START_TIME = "2017-01-01 00:00:00";
 
@@ -54,7 +55,7 @@ public class LogGenerator {
         calendar.setTime(startDate);
         for (int i = 0; i <= SEC_COUNT; i++) {
             Date date = calendar.getTime();
-            for (int count = 0; count <= 160; count++) {
+            for (int count = 0; count <= LOG_PER_SEC; count++) {
                 int userId = Math.abs(random.nextInt()) % USER_COUNT;
                 String str = getStringDate(date) + ';' + String.format("%08d", userId) + ';'
                 if (loginedUser.contains(userId)) {
