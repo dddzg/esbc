@@ -45,7 +45,7 @@ public class LogGenerator {
     }
 
     public static void main(String[] args) throws Exception {
-        String filePath = "hdfs://master:9000/pratice/test-day.dat";
+        String filePath = args[0];
         OutputStream outputStream = getOutputStream(filePath);
 //        OutputStream outputStream = System.out;
         Date startDate = strToDateLong("2017-01-01 00:00:00");
