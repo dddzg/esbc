@@ -24,6 +24,8 @@ public class LogGenerator {
      * 8000000个用户
      */
     private static final int USER_COUNT = 8000000;
+    
+    private static final String LOG_START_TIME = "2017-01-01 00:00:00";
 
     private static final Random random = new Random(233);
     private static final Set loginedUser = new HashSet();
@@ -48,7 +50,7 @@ public class LogGenerator {
         String filePath = args[0];
         OutputStream outputStream = getOutputStream(filePath);
 //        OutputStream outputStream = System.out;
-        Date startDate = strToDateLong("2017-01-01 00:00:00");
+        Date startDate = strToDateLong(LOG_START_TIME);
         calendar.setTime(startDate);
         for (int i = 0; i <= SEC_COUNT; i++) {
             Date date = calendar.getTime();
