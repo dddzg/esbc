@@ -19,14 +19,11 @@ public class LogGenerator {
     /**
      * 一年的秒数 365*24*60*60
      */
-    private static final int SEC_COUNT = 365 * 24 * 60 * 60;
+    private static final int SEC_COUNT = 36 * 24 * 60 * 60;
     /**
      * 8000000个用户
      */
-    private static final int USER_COUNT = 8000000;
-    private static final int LOG_PER_SEC = 160;
-    
-    private static final String LOG_START_TIME = "2017-01-01 00:00:00";
+    private static final int USER_COUNT = 800000;
 
     private static final Random random = new Random(233);
     private static final Set loginedUser = new HashSet();
@@ -48,16 +45,17 @@ public class LogGenerator {
     }
 
     public static void main(String[] args) throws Exception {
+        // hdfs://master:9000/pratice/test-day2.dat
         String filePath = args[0];
         OutputStream outputStream = getOutputStream(filePath);
 //        OutputStream outputStream = System.out;
-        Date startDate = strToDateLong(LOG_START_TIME);
+        Date startDate = strToDateLong("2017-01-01 00:00:00");
         calendar.setTime(startDate);
         for (int i = 0; i <= SEC_COUNT; i++) {
             Date date = calendar.getTime();
-            for (int count = 0; count <= LOG_PER_SEC; count++) {
+            for (int count = 0; count <= 160; count++) {
                 int userId = Math.abs(random.nextInt()) % USER_COUNT;
-                String str = getStringDate(date) + ';' + String.format("%08d", userId) + ';'
+                String str = getStringDate(date) + ';' + String.format("%08d", userId) + ';';
                 if (loginedUser.contains(userId)) {
                     str += "1\n";
                     outputStream.write(str.getBytes());
