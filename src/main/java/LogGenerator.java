@@ -19,7 +19,7 @@ public class LogGenerator {
     /**
      * 一年的秒数 365*24*60*60
      */
-    private static final int SEC_COUNT = 7 * 24 * 60 * 60;
+    private static final int SEC_COUNT = 365 * 24 * 60 * 60;
     /**
      * 8000000个用户
      */
