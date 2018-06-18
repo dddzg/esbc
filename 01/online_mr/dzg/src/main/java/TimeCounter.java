@@ -84,7 +84,6 @@ public class TimeCounter {
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        System.out.print(line.split(";")[0] + "dzg!" + line + "\n");
                     }
                 }
             }
