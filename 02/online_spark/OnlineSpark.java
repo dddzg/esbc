@@ -100,8 +100,7 @@ public class OnlineSpark {
 
         System.out.println(temp);
 //        writeOutput(temp);
-
-
+        
         ctx.stop();
     }
 
