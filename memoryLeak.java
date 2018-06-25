@@ -5,11 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class lack {
+public class memoryLack {
     public static void main(String[] args) throws InterruptedException{
-        //System.out.println("\n申请前JVM的信息： ");
-        //getJVMInfo();
-
 
         Map<Integer,List<Integer>> cache = new HashMap<Integer,List<Integer>>();
 
@@ -25,9 +22,6 @@ public class lack {
             }
 
             cache.put(index++,list);
-
-            //System.out.println("\n申请后JVM的信息： ");
-            //getJVMInfo();
 
         }
     }
