@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class memoryLack {
+public class memoryLeak {
     public static void main(String[] args) throws InterruptedException{
 
         Map<Integer,List<Integer>> cache = new HashMap<Integer,List<Integer>>();
