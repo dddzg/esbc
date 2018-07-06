@@ -1,5 +1,5 @@
 # 将streaming的处理上限提高20%
-根据limit.md的内容，给topic设置一个partition，streaming每秒处理数据的上限为10000条，尝试用一下方法对这个上限进行优化
+根据limit.md的内容，给topic设置一个partition，streaming每秒处理数据的上限为10000条，尝试用以下方法对这个上限进行优化
 ## 增加topic的partition数量
 由于kafka读写的单位是partition，单个partition是kafka并行操作的最小单元，因此，将一个topic拆分为多个partition可以提高吞吐量。
 这样，将topic的partition增加到2后，采用limit.md中的方法进行测试，发现此时streaming每秒处理数据的上限增加到了14000条。
