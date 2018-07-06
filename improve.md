@@ -1,0 +1,14 @@
+# 将streaming的处理上限提高20%
+根据limit.md的内容，给topic设置一个partition，streaming每秒处理数据的上限为10000条，尝试用一下方法对这个上限进行优化
+## 增加topic的partition数量
+由于kafka读写的单位是partition，单个partition是kafka并行操作的最小单元，因此，将一个topic拆分为多个partition可以提高吞吐量。
+这样，将topic的partition增加到2后，采用limit.md中的方法进行测试，发现此时streaming每秒处理数据的上限增加到了14000条。
+将topic的partition增加到3后，采用同上方法进行测试，此时streaming每秒处理数据上限增加到15000条。
+## 改进streaming读入数据的方式
+原代码中使用Receiver接收数据，利用的是Kafka高层次的消费者api，对于所有的receivers接收到的数据将会保存在spark executors中，
+然后通过Spark Streaming启动job来处理这些数据。现将读取数据的方式改为定期地从kafka的topic+partition中查询最新的偏移量，
+再根据偏移量范围在每个batch里面处理数据，直接从kafka的topic中读取数据。
+即用createDirectStream代替createStream方法。
+使用createDirectStream方法会从kafka中并行读入数据。
+
+使用以上两个方法，目前发现瓶颈停在streaming每秒处理15000条数据左右。
