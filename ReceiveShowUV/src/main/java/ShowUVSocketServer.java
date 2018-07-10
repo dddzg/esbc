@@ -99,7 +99,7 @@ public class ShowUVSocketServer extends WebSocketServer {
                         }
                     }
                 }
-                Thread.sleep(1000);
+                Thread.sleep(time);
             } catch (Exception e) {
                 e.printStackTrace();
             }
