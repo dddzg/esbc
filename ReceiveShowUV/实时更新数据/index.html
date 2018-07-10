@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>实时UV</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+    </head>
+    <body>
+        <div id="container" style="width: 600px;height:400px;margin:0 auto;"></div>
+        <script>
+        var wsServer = 'ws://localhost:8887';
+        var websocket = new WebSocket(wsServer);
+        websocket.onopen = function(evt){ onOpen(evt) };
+        websocket.onclose = function(evt){ onClose(evt) };
+        websocket.onmessage = function(evt){ onMessage(evt)};
+        websocket.onerror  = function(evt){ onError(evt) };
+        var data = [];
+        function onOpen(evt){
+            console.log("Connected to WebSocket server.");
+        }
+        function onClose(evt){
+            console.log("Disconnected");
+        }
+        
+        function onMessage(evt){      
+        //为最新的一个数增加数据提示框
+         function activeLastPointToolip(chart) {
+                var points = chart.series[0].points;
+                chart.tooltip.refresh(points[points.length -1]);
+        }
+        //Highcharts 实例化通过构造函数
+        Highcharts.chart('container', {
+                chart: {
+                        type: 'spline',
+                        marginRight: 10,
+		},
+		title: {
+				text: '实时UV数据'
+		},
+		xAxis: {
+				type: 'datetime',
+				tickPixelInterval: 150
+		},
+		yAxis: {
+				title: {
+						text: '当前登录人数'
+				}
+		},
+		tooltip: {
+				formatter: function () {
+                        return  Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>'+ '<br/>' +
+                                '<span>当前登录</span>'+
+								this.y+'<span>人</span>';
+				}
+		},
+		legend: {
+				enabled: false
+        }, 
+        credits:{
+            enabled: false
+        },
+		series: [{
+				data: (function () {
+						
+                        //初始化生成的一组20个数的数据
+                                var array = evt.data.split(';');  
+								data.push({
+										x: (new Date(Date.parse(array[0]))).getTime()+1 * 1000,
+										y: parseInt(array[1])
+								});
+                        console.log("return data");
+                        console.log(array[0]);
+                        console.log(data.length);
+                        if(data.length === 20){
+                        data.shift(); 
+						return data;
+                        }
+
+				}())
+		}]
+});
+}   
+function onError(evt){
+            console.log('Error occured:'+evt.data);
+        }
+        </script>
+    </body>
+</html>
