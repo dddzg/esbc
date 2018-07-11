@@ -38,17 +38,19 @@ public class ShowUVSocketServer extends WebSocketServer {
 
     private static final String FILE_PATH = "hdfs://master:9000/test";
 
-    private static final int time = 1000 * 10;
+    private static final int time = 1000 * 5;
 
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
         System.out.println("open the WebsocketServer");
         Configuration conf = new Configuration();
-
         Path path = new Path(FILE_PATH);
         FileSystem fs = null;
 
-
         while (true) {
+            if (webSocket.isClosed()){
+                System.out.println("websocket is close.");
+                break;
+            }
             StringBuffer buffer = new StringBuffer();
             FSDataInputStream fsr = null;
             BufferedReader bufferReader = null;
@@ -93,8 +95,9 @@ public class ShowUVSocketServer extends WebSocketServer {
                             fsr = fileFs.open(file.getPath());
                             bufferReader = new BufferedReader(new InputStreamReader(fsr));
                             if (null != (lineText = bufferReader.readLine())) {
-                                System.out.println(lineText);
+
                                 webSocket.send(lineText);
+                                System.out.println(lineText);
                             }
                         }
                     }
@@ -112,8 +115,9 @@ public class ShowUVSocketServer extends WebSocketServer {
     }
 
     @Override
-    public void onMessage(WebSocket conn, String message) {
-        System.out.println(conn.getLocalSocketAddress() + message);
+    public void onMessage(WebSocket webSocket, String message) {
+        System.out.println(webSocket.getLocalSocketAddress() + message);
+
 
     }
 
