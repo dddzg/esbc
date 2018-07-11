@@ -7,7 +7,11 @@ from kafka.errors import KafkaError
 import random 
 from datetime import datetime
 
-user_per_second = 1000
+from hdfs.client import Client
+client = Client("http://master:50070")
+hdfs_path = "/test/jcn.dat"
+
+user_per_second = 20000
 
 def random_index(rate):
     """随机变量的概率函数"""
@@ -39,9 +43,6 @@ while(1):
         nowtime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         rate = random.uniform(0, 100)
         for i in range(0,user_per_second):
-            producer.send('dzg', bytes(nowtime+";"+"{:0>8d}".format(random.randint(0,1000000))+";"+str(random_index([rate,100-rate])))).add_callback(on_send_success).add_errback(on_send_error)
-# block until all async messages are sent
-#producer.flush()
-
-# configure multiple retries
-#producer = KafkaProducer(retries=5)
+        	data = bytes(nowtime+";"+"{:0>8d}".format(random.randint(0,1000000))+";"+str(random_index([rate,100-rate])))
+        	producer.send('dzg', data).add_callback(on_send_success).add_errback(on_send_error)
+        	client.write(hdfs_path, data,overwrite=False,append=True)
