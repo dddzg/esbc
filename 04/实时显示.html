@@ -4,9 +4,10 @@
         <meta charset="utf-8"><link rel="icon" href="https://static.jianshukeji.com/highcharts/images/favicon.ico">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
-            /* css 代码  */
+         
         </style>
         <script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+	<script src="reconnecting-websocket.min.js"></script>
         <script src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
         <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
     </head>
@@ -35,10 +36,11 @@
                                             setInterval(function () {
                                                     // var x = (new Date()).getTime(), // 当前时间
                                                             // y = Math.random();          // 随机值
-                                                    console.log(queue.length)
+                                                    console.log("the number of queue's length"+queue.length)
                                                     if (queue.length!== 0 ){
                                                         data = queue.shift()
                                                         console.log(data.x);
+							console.log(data.y);
                                                         var x = (new Date(Date.parse(data.x))).getTime()+1 * 1000
                                                         var y = data.y
                                                         series.addPoint([x, y], true, true);
@@ -89,21 +91,23 @@
                     }]
             });
             var wsServer = 'ws://localhost:8887';
-            var websocket = new WebSocket(wsServer);
+            var websocket = new ReconnectingWebSocket(wsServer);
+	    
             websocket.onopen = function(evt){ onOpen(evt) };
             websocket.onclose = function(evt){ onClose(evt) };
             websocket.onmessage = function(evt){ onMessage(evt)};
-            websocket.onerror  = function(evt){ onError(evt) };
+            websocket.onerror  = function(evt){ console.log(evt);};
             var data = [];
             function onOpen(evt){
                 console.log("Connected to WebSocket server.");
+		
             }
             function onClose(evt){
                 console.log("Disconnected");
             }
             
             function onMessage(evt){      
-                console.log(evt.data)
+           
                 arr = evt.data.split(';')
                 time = arr[0]
                 count = arr[1]
@@ -117,6 +121,8 @@
                 //         chart.tooltip.refresh(points[points.length -1]);
                 // }
             }
+
+	    
         </script>
     </body>
 </html>
