@@ -3,7 +3,7 @@
 
 slave_04|slave_03 | slave_02 |  |slave_01| slave_00 |master_standby |master
 ------------ | ------------ | ------------- | ------------|------------ | ------------- | ------------|------
-<b>slave_11</b>|*slave_10* | *slave_09* |  |*slave_08*| *slave_07* |*slave_06* |*slave_05*
+<b>slave_11</b>|<b>slave_10</b> | <b>slave_09</b> |  |<b>slave_08</b>| <b>slave_07</b> |<b>slave_06</b> |<b>slave_05</b>
 
 ip-hostname 对应表
 
